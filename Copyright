@@ -61,3 +61,40 @@ local Getkey = Tabs.KeySys:AddButton({
 })
 
 Window:SelectTab(1)
+
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+    Name = "VALIANT SCRIPT - BETA",
+    LoadingTitle = "TOP 1 DH SCRIPT",
+    LoadingSubtitle = "by #opprapier in dc",
+    KeySystem = false,
+    KeySettings = {
+        Title = "Key | Valiant Hub",
+        Subtitle = "Key System",
+        Note = "Key In Discord Server",
+        FileName = "valientXzKeysystem",
+        SaveKey = false,
+        GrabKeyFromSite = true,
+        Key = {"https://pastebin.com/raw/JXh4Pj26", "https://pastebin.com/raw/zNhEvEe7"}
+    }
+})
+
+local MainTab = Window:CreateTab("Home", nil)
+MainTab:CreateSection("Scripts!")
+
+Rayfield:Notify({
+    Title = "You executed the script",
+    Content = "Very cool GUI",
+    Duration = 5,
+    Image = 13047715178,
+    Actions = {
+        Ignore = {
+            Name = "Okay!",
+            Callback = function()
+                print("The user tapped Okay!")
+            end
+        }
+    }
+})
+
