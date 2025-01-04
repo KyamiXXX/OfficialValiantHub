@@ -8,7 +8,7 @@ toggleButton.Size = UDim2.new(0, 100, 0, 50)
 toggleButton.Position = UDim2.new(0.9, 0, 0.1, 0)
 toggleButton.Text = "Toggle Hub"
 toggleButton.BackgroundColor3 = Color3.fromRGB(0, 120, 255)
-toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255) -- Use Color3.fromRGB for consistency
+toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 toggleButton.Visible = true
 toggleButton.Parent = screenGui
 
@@ -85,6 +85,9 @@ executeButton.MouseButton1Click:Connect(function()
                 print("STATUS = 🟢")
                 daHoodScript()  -- Execute the Da Hood script
                 print("Script Successfully loaded! ❤")
+                
+                -- Hide the Hub GUI
+                mainFrame.Visible = false
             else
                 warn("Failed to load script: " .. tostring(loadErr))
             end
