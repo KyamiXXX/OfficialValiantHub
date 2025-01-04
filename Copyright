@@ -1,41 +1,43 @@
-
 local player = game.Players.LocalPlayer
-local screenGui = Instance.new("ScreenGui", player.PlayerGui)
+local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "ValiantHubGUI"
+screenGui.Parent = player.PlayerGui
 
-local toggleButton = Instance.new("TextButton", screenGui)
+local toggleButton = Instance.new("TextButton")
 toggleButton.Size = UDim2.new(0, 100, 0, 50)
 toggleButton.Position = UDim2.new(0.9, 0, 0.1, 0)
 toggleButton.Text = "Toggle Hub"
 toggleButton.BackgroundColor3 = Color3.fromRGB(0, 120, 255)
-toggleButton.TextColor3 = Color3.new(1, 1, 1)
+toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255) -- Use Color3.fromRGB for consistency
 toggleButton.Visible = true
+toggleButton.Parent = screenGui
 
-
-local mainFrame = Instance.new("Frame", screenGui)
+local mainFrame = Instance.new("Frame")
 mainFrame.Size = UDim2.new(0, 400, 0, 300)
 mainFrame.Position = UDim2.new(0.5, -200, 0.5, -150)
 mainFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 mainFrame.BorderSizePixel = 2
 mainFrame.Visible = false
+mainFrame.Parent = screenGui
 
-
-local titleLabel = Instance.new("TextLabel", mainFrame)
+local titleLabel = Instance.new("TextLabel")
 titleLabel.Size = UDim2.new(1, 0, 0, 50)
 titleLabel.Text = "Valiant Hub"
 titleLabel.BackgroundColor3 = Color3.fromRGB(0, 120, 255)
-titleLabel.TextColor3 = Color3.new(1, 1, 1)
+titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 titleLabel.Font = Enum.Font.SourceSansBold
 titleLabel.TextSize = 24
+titleLabel.Parent = mainFrame
 
 -- Dropdown for Game Selection
-local gameDropdown = Instance.new("TextButton", mainFrame)
+local gameDropdown = Instance.new("TextButton")
 gameDropdown.Size = UDim2.new(0.9, 0, 0, 50)
 gameDropdown.Position = UDim2.new(0.05, 0, 0.25, 0)
 gameDropdown.Text = "Select Game: Da Hood"
 gameDropdown.TextSize = 18
 gameDropdown.BackgroundColor3 = Color3.fromRGB(240, 240, 240)
-gameDropdown.TextColor3 = Color3.new(0, 0, 0)
+gameDropdown.TextColor3 = Color3.fromRGB(0, 0, 0)
+gameDropdown.Parent = mainFrame
 
 local games = { "Da Hood", "Brookhaven", "Adopt Me" }
 local currentIndex = 1
@@ -49,36 +51,47 @@ gameDropdown.MouseButton1Click:Connect(function()
 end)
 
 -- Execute Button
-local executeButton = Instance.new("TextButton", mainFrame)
+local executeButton = Instance.new("TextButton")
 executeButton.Size = UDim2.new(0.9, 0, 0, 50)
 executeButton.Position = UDim2.new(0.05, 0, 0.55, 0)
 executeButton.Text = "Execute Script"
 executeButton.TextSize = 18
 executeButton.BackgroundColor3 = Color3.fromRGB(0, 180, 75)
-executeButton.TextColor3 = Color3.new(1, 1, 1)
+executeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+executeButton.Parent = mainFrame
 
 -- Toggle Hub Visibility
 toggleButton.MouseButton1Click:Connect(function()
     mainFrame.Visible = not mainFrame.Visible
 end)
 
--- Execute the corresponding script (direct execution via executor)
+-- Execute the corresponding script
 executeButton.MouseButton1Click:Connect(function()
-    -- Debugging print statement
     print("Script execution started.")
     
     local selectedGame = games[currentIndex]
-    
-    -- Check which game was selected and show it
-    print("Selected Game: " .. games[currentIndex])
+    print("Selected Game: " .. selectedGame)
 
-    -- In case of Da Hood, show script loading
     if selectedGame == "Da Hood" then
         print("Executing Da Hood script...")
         local scriptUrl = 'https://raw.githubusercontent.com/KyamiXXX/CopyrightClaim/refs/heads/main/Copyrights'
-        local daHoodScript = loadstring(game:HttpGet(scriptUrl))
-        print("STATUS = 🟢.")                                                                                                                                                                                                                                                 ABCDEFGHIJKNewReleaseLMNOPQRSTUVWXYZ ")
-        daHoodScript()  -- Execute the Da Hood script
-        print("Script Successfully loaded! ❤")  -- After script execution
+        local success, response = pcall(function()
+            return game:HttpGet(scriptUrl)
+        end)
+
+        if success then
+            local daHoodScript, loadErr = loadstring(response)
+            if daHoodScript then
+                print("STATUS = 🟢")
+                daHoodScript()  -- Execute the Da Hood script
+                print("Script Successfully loaded! ❤")
+            else
+                warn("Failed to load script: " .. tostring(loadErr))
+            end
+        else
+            warn("Failed to fetch script: " .. tostring(response))
+        end
+    else
+        print("No script defined for this game.")
     end
 end)
