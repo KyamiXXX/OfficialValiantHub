@@ -1,100 +1,84 @@
-local KeyGuardLibrary = loadstring(game:HttpGet("https://cdn.keyguardian.org/library/v1.0.0.lua"))()
-local trueData = "47d1f59bfedc48c29c788568e6ea8984"
-local falseData = "1ba06edf85934127803827a187a76859"
 
-KeyGuardLibrary.Set({
-  publicToken = "f1ec5979600349cc8827610abfa86696",
-  privateToken = "3186ddb6ee4a49a285eadd8dccb91c49",
-  trueData = trueData,
-  falseData = falseData,
-})
+local player = game.Players.LocalPlayer
+local screenGui = Instance.new("ScreenGui", player.PlayerGui)
+screenGui.Name = "ValiantHubGUI"
 
-local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
-local key = ""
+local toggleButton = Instance.new("TextButton", screenGui)
+toggleButton.Size = UDim2.new(0, 100, 0, 50)
+toggleButton.Position = UDim2.new(0.9, 0, 0.1, 0)
+toggleButton.Text = "Toggle Hub"
+toggleButton.BackgroundColor3 = Color3.fromRGB(0, 120, 255)
+toggleButton.TextColor3 = Color3.new(1, 1, 1)
+toggleButton.Visible = true
 
-local Window = Fluent:CreateWindow({
-    Title = "Key System",
-    SubTitle = "ValiantHub",
-    TabWidth = 160,
-    Size = UDim2.fromOffset(580, 340),
-    Acrylic = false,
-    Theme = "Dark",
-    MinimizeKey = Enum.KeyCode.LeftControl
-})
 
-local Tabs = {
-    KeySys = Window:AddTab({ Title = "Key System", Icon = "key" }),
-}
+local mainFrame = Instance.new("Frame", screenGui)
+mainFrame.Size = UDim2.new(0, 400, 0, 300)
+mainFrame.Position = UDim2.new(0.5, -200, 0.5, -150)
+mainFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+mainFrame.BorderSizePixel = 2
+mainFrame.Visible = false
 
-local Entkey = Tabs.KeySys:AddInput("Input", {
-    Title = "Enter Key",
-    Description = "Enter Key Here",
-    Default = "",
-    Placeholder = "Enter key…",
-    Numeric = false,
-    Finished = false,
-    Callback = function(Value)
-        key = Value
+
+local titleLabel = Instance.new("TextLabel", mainFrame)
+titleLabel.Size = UDim2.new(1, 0, 0, 50)
+titleLabel.Text = "Valiant Hub"
+titleLabel.BackgroundColor3 = Color3.fromRGB(0, 120, 255)
+titleLabel.TextColor3 = Color3.new(1, 1, 1)
+titleLabel.Font = Enum.Font.SourceSansBold
+titleLabel.TextSize = 24
+
+-- Dropdown for Game Selection
+local gameDropdown = Instance.new("TextButton", mainFrame)
+gameDropdown.Size = UDim2.new(0.9, 0, 0, 50)
+gameDropdown.Position = UDim2.new(0.05, 0, 0.25, 0)
+gameDropdown.Text = "Select Game: Da Hood"
+gameDropdown.TextSize = 18
+gameDropdown.BackgroundColor3 = Color3.fromRGB(240, 240, 240)
+gameDropdown.TextColor3 = Color3.new(0, 0, 0)
+
+local games = { "Da Hood", "Brookhaven", "Adopt Me" }
+local currentIndex = 1
+
+gameDropdown.MouseButton1Click:Connect(function()
+    currentIndex = currentIndex + 1
+    if currentIndex > #games then
+        currentIndex = 1
     end
-})
+    gameDropdown.Text = "Select Game: " .. games[currentIndex]
+end)
 
-local Checkkey = Tabs.KeySys:AddButton({
-    Title = "Check Key",
-    Description = "Enter Key before pressing this button",
-    Callback = function()
-        local response = KeyGuardLibrary.validateDefaultKey(key)
-        if response == trueData then
-           print("Key is valid")
-           -- Your code here
-        else
-           print("Key is invalid")
-        end
+-- Execute Button
+local executeButton = Instance.new("TextButton", mainFrame)
+executeButton.Size = UDim2.new(0.9, 0, 0, 50)
+executeButton.Position = UDim2.new(0.05, 0, 0.55, 0)
+executeButton.Text = "Execute Script"
+executeButton.TextSize = 18
+executeButton.BackgroundColor3 = Color3.fromRGB(0, 180, 75)
+executeButton.TextColor3 = Color3.new(1, 1, 1)
+
+-- Toggle Hub Visibility
+toggleButton.MouseButton1Click:Connect(function()
+    mainFrame.Visible = not mainFrame.Visible
+end)
+
+-- Execute the corresponding script (direct execution via executor)
+executeButton.MouseButton1Click:Connect(function()
+    -- Debugging print statement
+    print("Script execution started.")
+    
+    local selectedGame = games[currentIndex]
+    
+    -- Check which game was selected and show it
+    print("Selected Game: " .. games[currentIndex])
+
+    -- In case of Da Hood, show script loading
+    if selectedGame == "Da Hood" then
+        print("Executing Da Hood script...")
+        local scriptUrl = 'https://raw.githubusercontent.com/KyamiXXX/CopyrightClaim/refs/heads/main/Copyrights'
+        local daHoodScript = loadstring(game:HttpGet(scriptUrl))
+        print("STATUS = 🟢.")                                                                                                                                                                                                                                                 ABCDEFGHIJKNewReleaseLMNOPQRSTUVWXYZ ")
+        daHoodScript()  -- Execute the Da Hood script
+        print("Script Successfully loaded! ❤")  -- After script execution
     end
-})
-
-local Getkey = Tabs.KeySys:AddButton({
-    Title = "Get Key",
-    Description = "Get Key here",
-    Callback = function()
-       setclipboard(KeyGuardLibrary.getLink())
-    end
-})
-
-Window:SelectTab(1)
-
-local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
-
-local Window = Rayfield:CreateWindow({
-    Name = "VALIANT SCRIPT - BETA",
-    LoadingTitle = "TOP 1 DH SCRIPT",
-    LoadingSubtitle = "by #opprapier in dc",
-    KeySystem = false,
-    KeySettings = {
-        Title = "Key | Valiant Hub",
-        Subtitle = "Key System",
-        Note = "Key In Discord Server",
-        FileName = "valientXzKeysystem",
-        SaveKey = false,
-        GrabKeyFromSite = true,
-        Key = {"https://pastebin.com/raw/JXh4Pj26", "https://pastebin.com/raw/zNhEvEe7"}
-    }
-})
-
-local MainTab = Window:CreateTab("Home", nil)
-MainTab:CreateSection("Scripts!")
-
-Rayfield:Notify({
-    Title = "You executed the script",
-    Content = "Very cool GUI",
-    Duration = 5,
-    Image = 13047715178,
-    Actions = {
-        Ignore = {
-            Name = "Okay!",
-            Callback = function()
-                print("The user tapped Okay!")
-            end
-        }
-    }
-})
-
+end)
